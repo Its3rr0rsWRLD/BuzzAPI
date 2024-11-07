@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BuzzAPI - Open Source API for Folder Management</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      color: #f0f0f0;
+      background-color: #121212;
+      overflow: hidden;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: #e0e0e0;
+    }
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+      color: #b0b0b0;
+    }
+    .btn {
+      display: inline-block;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #121212;
+      background-color: #e0e0e0;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+    .btn:hover {
+      background-color: #ffffff;
+      color: #121212;
+      transform: scale(1.05);
+    }
+    .features {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      max-width: 800px;
+      margin-top: 2rem;
+    }
+    .feature {
+      background-color: #1e1e1e;
+      border: 1px solid #333;
+      padding: 1.5rem;
+      border-radius: 5px;
+      text-align: left;
+      position: relative;
+      transition: transform 0.3s ease;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0);
+    }
+    .feature h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: #e0e0e0;
+    }
+    .footer {
+      margin-top: 3rem;
+      font-size: 0.875rem;
+      color: #777;
+    }
+    /* White glowing circle cursor */
+    #cursor {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      background-color: rgba(255, 255, 255, 0.3);
+      border: 2px solid rgba(255, 255, 255, 0.8);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.6), 0 0 20px rgba(255, 255, 255, 0.4);
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s ease;
+      z-index: 2;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="cursor"></div>
+
+  <div class="container">
+    <h1>BuzzAPI</h1>
+    <p>BuzzAPI is a fully open-source API that allows you to manage folders easily and seamlessly within the BuzzHeavier ecosystem. Create, retrieve, and delete folders from your application with ease.</p>
+    
+    <a href="https://github.com/Its3rr0rsWRLD/BuzzAPI" class="btn">View on GitHub</a>
+
+    <div class="features">
+      <div class="feature">
+        <h3>🚀 Quick Setup</h3>
+        <p>With minimal setup, BuzzAPI provides the tools you need to integrate folder management capabilities into your projects effortlessly.</p>
+      </div>
+      <div class="feature">
+        <h3>📂 Folder Management</h3>
+        <p>Create, retrieve, and delete folders with simple API endpoints designed to be robust and reliable.</p>
+      </div>
+      <div class="feature">
+        <h3>🔓 Open Source</h3>
+        <p>BuzzAPI is open source and maintained by the community. View the source code, contribute, and help improve the API on GitHub.</p>
+      </div>
+    </div>
+
+    <div class="footer">
+      Created by <a href="https://github.com/Its3rr0rsWRLD" target="_blank">Its3rr0rsWRLD</a>. BuzzAPI is licensed under the MIT License.
+    </div>
+  </div>
+
+  <script>
+    const cursor = document.getElementById('cursor');
+
+    document.addEventListener('mousemove', (e) => {
+      cursor.style.top = `${e.pageY}px`;
+      cursor.style.left = `${e.pageX}px`;
+    });
+
+    document.querySelectorAll('.feature').forEach((feature) => {
+      feature.addEventListener('mousemove', (e) => {
+        const { width, height, left, top } = feature.getBoundingClientRect();
+        const x = e.clientX - left;
+        const y = e.clientY - top;
+
+        const xIntensity = Math.abs((x / width) - 0.5) * 2;
+        const yIntensity = Math.abs((y / height) - 0.5) * 2;
+        const intensity = Math.max(0, 1 - (xIntensity + yIntensity) / 2);
+
+        feature.style.boxShadow = `0 0 15px rgba(255, 255, 255, ${intensity}), 
+                                   0 0 30px rgba(255, 255, 255, ${intensity * 0.6})`;
+      });
+
+      feature.addEventListener('mouseleave', () => {
+        feature.style.boxShadow = '0 0 10px rgba(255, 255, 255, 0)';
+      });
+    });
+  </script>
+
+</body>
+</html>
