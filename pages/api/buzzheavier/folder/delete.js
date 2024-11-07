@@ -7,11 +7,35 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { id } = req.body;
-    if (!id) return res.status(400).json({ error: 'Folder ID is required.' });
+    const { id, name } = req.body;
+    if (!id && !name) return res.status(400).json({ error: 'Folder ID or name is required.' });
 
     const cookies = req.headers.cookie || '';
-    const response = await fetch(`https://buzzheavier.com/fl/${id}`, {
+
+    let folderId = id;
+
+    if (!folderId && name) {
+      const foldersResponse = await fetch('http://localhost:3000/api/buzzheavier/getFolders', {
+        method: 'GET',
+        headers: { 'Cookie': cookies },
+      });
+
+      if (!foldersResponse.ok) {
+        return res.status(foldersResponse.status).json({ error: 'Failed to retrieve folders.' });
+      }
+
+      const { folders } = await foldersResponse.json();
+
+      const folder = folders.find(f => f.name.toLowerCase() === name.toLowerCase());
+
+      if (!folder) {
+        return res.status(404).json({ error: `Folder with name '${name}' not found.` });
+      }
+
+      folderId = folder.id;
+    }
+
+    const response = await fetch(`https://buzzheavier.com/fl/${folderId}`, {
       method: 'DELETE',
       headers: { 'Cookie': cookies },
     });
